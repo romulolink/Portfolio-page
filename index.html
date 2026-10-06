@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
+  <div id="intro" aria-hidden="true"><div class="word" id="introWord"></div><div class="bar"></div></div>
   <div class="blob one"></div><div class="blob two"></div><div class="blob three"></div>
   <canvas id="fx"></canvas>
   <main>
@@ -17,6 +18,25 @@
     <section class="links" id="links"></section>
   </main>
   <script src="assets/fx.js"></script>
+  <script>
+    (function () {
+      var intro = document.getElementById("intro"), word = document.getElementById("introWord");
+      var text = "Overaction Game Studio", i = 0;
+      text.split(" ").forEach(function (wd) {
+        var w = document.createElement("span"); w.className = "w";
+        wd.split("").forEach(function (c) {
+          var s = document.createElement("span"); s.className = "ch"; s.style.setProperty("--i", i++); s.textContent = c; w.appendChild(s);
+        });
+        i++; word.appendChild(w);
+      });
+      function done() { document.body.classList.add("ready"); }
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) { intro.remove(); done(); return; }
+      setTimeout(function () { intro.classList.add("out"); }, 1700);
+      setTimeout(done, 2000);
+      setTimeout(function () { intro.remove(); }, 2700);
+      intro.addEventListener("click", function () { intro.classList.add("out"); done(); });
+    })();
+  </script>
   <script>
     function safeUrl(u) {
       try {
@@ -59,6 +79,7 @@
           a.appendChild(txt);
           var ar = document.createElement("span"); ar.className = "arrow"; ar.textContent = "→";
           a.appendChild(ar);
+          var sh = document.createElement("span"); sh.className = "shine"; a.appendChild(sh);
           a.addEventListener("pointermove", function (e) {
             var r = a.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
             a.style.setProperty("--mx", x + "px"); a.style.setProperty("--my", y + "px");
