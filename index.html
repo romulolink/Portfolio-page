@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="blob one"></div><div class="blob two"></div><div class="blob three"></div>
+  <canvas id="fx"></canvas>
+  <main>
+    <header>
+      <h1 id="name">&nbsp;</h1>
+      <p id="bio"></p>
+    </header>
+    <section class="links" id="links"></section>
+  </main>
+  <script src="assets/fx.js"></script>
+  <script>
+    function safeUrl(u) {
+      try {
+        var x = new URL(u, location.href);
+        return /^(https?:|mailto:|tel:)$/.test(x.protocol) ? x.href : "#";
+      } catch (e) { return "#"; }
+    }
+    fetch("data/links.json?t=" + Date.now())
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var p = d.profile || {};
+        document.getElementById("name").textContent = p.name || "Portfolio";
+        document.getElementById("bio").textContent = p.bio || "";
+        document.title = p.name || "Portfolio";
+        var box = document.getElementById("links");
+        if (!(d.links || []).length) {
+          box.innerHTML = '<p class="empty">No links yet.</p>';
+          return;
+        }
+        d.links.forEach(function (l, i) {
+          var a = document.createElement("a");
+          a.className = "card";
+          a.href = safeUrl(l.url);
+          a.rel = "noopener noreferrer";
+          if (/^https?:/.test(a.href)) a.target = "_blank";
+          a.style.animationDelay = (i * 80) + "ms";
+          if (l.image) {
+            var img = document.createElement("img");
+            img.src = l.image; img.alt = ""; img.loading = "lazy";
+            img.onerror = function () { img.remove(); };
+            a.appendChild(img);
+          }
+          var txt = document.createElement("div");
+          var t = document.createElement("div"); t.className = "t"; t.textContent = l.title || l.url;
+          txt.appendChild(t);
+          if (l.desc) { var s = document.createElement("div"); s.className = "d"; s.textContent = l.desc; txt.appendChild(s); }
+          a.appendChild(txt);
+          var ar = document.createElement("span"); ar.className = "arrow"; ar.textContent = "→";
+          a.appendChild(ar);
+          a.addEventListener("pointermove", function (e) {
+            var r = a.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+            a.style.setProperty("--mx", x + "px"); a.style.setProperty("--my", y + "px");
+            a.style.transform = "rotateX(" + ((y / r.height - .5) * -8) + "deg) rotateY(" + ((x / r.width - .5) * 8) + "deg)";
+          });
+          a.addEventListener("pointerleave", function () { a.style.transform = ""; });
+          box.appendChild(a);
+        });
+      })
+      .catch(function () {
+        document.getElementById("links").innerHTML = '<p class="empty">Could not load links.</p>';
+      });
+  </script>
+</body>
+</html>
