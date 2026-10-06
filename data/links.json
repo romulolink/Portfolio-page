@@ -5,15 +5,45 @@
   },
   "links": [
     {
-      "title": "GitHub",
-      "url": "https://github.com/",
-      "desc": "My code and open source work",
+      "title": "Node Finances",
+      "url": "https://vercel.com/rmulo-limas-projects/node-finances",
+      "desc": "Finance tracking app",
       "image": ""
     },
     {
-      "title": "Contact",
-      "url": "mailto:you@example.com",
-      "desc": "Say hello",
+      "title": "Pomo Report",
+      "url": "https://pomo-report.vercel.app/",
+      "desc": "Pomodoro reports",
+      "image": ""
+    },
+    {
+      "title": "ITR Wiki",
+      "url": "https://itr-wiki.vercel.app/",
+      "desc": "ITR wiki",
+      "image": ""
+    },
+    {
+      "title": "Steam Data",
+      "url": "https://steam-data-theta.vercel.app/",
+      "desc": "Steam data explorer",
+      "image": ""
+    },
+    {
+      "title": "Island Idle RPG 2 Balancing",
+      "url": "https://island-idle-rpg-2-balancing.vercel.app/",
+      "desc": "Balancing tool for Island Idle RPG 2",
+      "image": ""
+    },
+    {
+      "title": "Mini Calendar",
+      "url": "https://github.com/romulolink/tauri_calendar/releases/download/release/Mini.Calendar_1.0.0_x64_en-US.zip",
+      "desc": "Desktop calendar (Tauri) · Windows x64 download",
+      "image": ""
+    },
+    {
+      "title": "NoteCalc",
+      "url": "https://github.com/romulolink/tauri_notecalc/releases/download/release/NoteCalc_0.1.0_x64_en-US.zip",
+      "desc": "Desktop note calculator (Tauri) · Windows x64 download",
       "image": ""
     }
   ]
