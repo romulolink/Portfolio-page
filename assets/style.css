@@ -28,7 +28,7 @@ body {
 .blob.three { background: var(--c); top: 30vh; left: 40vw; width: 30vmax; height: 30vmax; opacity: .15; animation-delay: -14s; }
 @keyframes drift { to { transform: translate(8vmax, 6vmax) scale(1.15); } }
 
-main { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; padding: 8vh 16px 6vh; }
+main { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 8vh 16px 6vh; }
 header { text-align: center; margin-bottom: 40px; }
 h1 {
   font-size: clamp(2rem, 7vw, 3.4rem); margin: 0 0 8px; letter-spacing: -.02em;
@@ -39,11 +39,11 @@ h1 {
 @keyframes shine { to { background-position: 300% 0; } }
 header p { color: var(--muted); margin: 0; font-size: 1.1rem; }
 
-.links { display: grid; gap: 14px; perspective: 900px; }
+.links { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); perspective: 900px; }
 .card {
   --mx: 50%; --my: 50%;
-  position: relative; display: flex; align-items: center; gap: 16px;
-  padding: 16px; border-radius: 16px; text-decoration: none; color: inherit;
+  position: relative; display: flex; flex-direction: column; justify-content: flex-end;
+  aspect-ratio: 1; padding: 16px; border-radius: 18px; text-decoration: none; color: inherit;
   background: var(--card); border: 1px solid var(--border);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   transition: transform .15s ease-out, border-color .2s;
@@ -51,8 +51,8 @@ header p { color: var(--muted); margin: 0; font-size: 1.1rem; }
   transform-style: preserve-3d; overflow: hidden;
 }
 .card::before {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(260px circle at var(--mx) var(--my), rgba(124, 92, 255, .28), transparent 70%);
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background: radial-gradient(220px circle at var(--mx) var(--my), rgba(124, 92, 255, .32), transparent 70%);
   opacity: 0; transition: opacity .25s;
 }
 .card:hover { border-color: rgba(255, 255, 255, .3); }
@@ -60,13 +60,28 @@ header p { color: var(--muted); margin: 0; font-size: 1.1rem; }
 .card:focus-visible { outline: 2px solid var(--b); outline-offset: 3px; }
 @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 .card img {
-  width: 64px; height: 64px; object-fit: cover; border-radius: 12px; flex: none;
-  background: rgba(255, 255, 255, .06);
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;
+  transition: transform .4s ease;
 }
-.card .t { font-weight: 650; font-size: 1.1rem; }
-.card .d { color: var(--muted); font-size: .92rem; }
-.card .arrow { margin-left: auto; color: var(--muted); transition: transform .2s, color .2s; }
-.card:hover .arrow { transform: translateX(4px); color: var(--fg); }
+.card:hover img { transform: scale(1.06); }
+.card.noimg::after {
+  content: attr(data-initial); position: absolute; top: 10%; left: 0; right: 0; text-align: center;
+  font-size: 4.5rem; font-weight: 800; line-height: 1; z-index: 0;
+  background: linear-gradient(135deg, var(--a), var(--b), var(--c)); -webkit-background-clip: text;
+  background-clip: text; color: transparent; opacity: .55;
+}
+.card .txt { position: relative; z-index: 1; }
+.card.hasimg::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to top, rgba(7, 7, 13, .92) 0%, rgba(7, 7, 13, .2) 60%, transparent);
+}
+.card .t { font-weight: 650; font-size: 1.05rem; line-height: 1.25; }
+.card .d { color: var(--muted); font-size: .85rem; margin-top: 2px; }
+.card .arrow {
+  position: absolute; top: 12px; right: 14px; z-index: 3; color: var(--muted);
+  transition: transform .2s, color .2s;
+}
+.card:hover .arrow { transform: translate(3px, -3px); color: var(--fg); }
 .empty { text-align: center; color: var(--muted); }
 
 @media (prefers-reduced-motion: reduce) {

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Portfolio</title>
+  <title>Overaction Game Studio</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -28,9 +28,9 @@
       .then(function (r) { return r.json(); })
       .then(function (d) {
         var p = d.profile || {};
-        document.getElementById("name").textContent = p.name || "Portfolio";
+        document.getElementById("name").textContent = p.name || "Overaction Game Studio";
         document.getElementById("bio").textContent = p.bio || "";
-        document.title = p.name || "Portfolio";
+        document.title = p.name || "Overaction Game Studio";
         var box = document.getElementById("links");
         if (!(d.links || []).length) {
           box.innerHTML = '<p class="empty">No links yet.</p>';
@@ -43,13 +43,16 @@
           a.rel = "noopener noreferrer";
           if (/^https?:/.test(a.href)) a.target = "_blank";
           a.style.animationDelay = (i * 80) + "ms";
+          var label = (l.title || l.url || "?").trim();
+          a.dataset.initial = label.charAt(0).toUpperCase();
+          a.classList.add(l.image ? "hasimg" : "noimg");
           if (l.image) {
             var img = document.createElement("img");
             img.src = l.image; img.alt = ""; img.loading = "lazy";
-            img.onerror = function () { img.remove(); };
+            img.onerror = function () { img.remove(); a.classList.replace("hasimg", "noimg"); };
             a.appendChild(img);
           }
-          var txt = document.createElement("div");
+          var txt = document.createElement("div"); txt.className = "txt";
           var t = document.createElement("div"); t.className = "t"; t.textContent = l.title || l.url;
           txt.appendChild(t);
           if (l.desc) { var s = document.createElement("div"); s.className = "d"; s.textContent = l.desc; txt.appendChild(s); }
